@@ -21,7 +21,7 @@ public class Validator {
 
     public void validateDiscount(BigDecimal discount) throws ValidationException {
         if (discount.compareTo(BigDecimal.ZERO) < 0 || discount.compareTo(new BigDecimal(100)) > 0) {
-            throw new ValidationException("Price should not be less than 0 and greater than 100");
+            throw new ValidationException("Discount should not be less than 0 and greater than 100");
         }
     }
 
