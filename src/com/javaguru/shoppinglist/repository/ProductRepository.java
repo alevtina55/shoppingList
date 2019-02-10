@@ -1,29 +1,28 @@
-package com.javaguru.shoppinglist;
+package com.javaguru.shoppinglist.repository;
+
+import com.javaguru.shoppinglist.domain.Product;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class DefaultProductService implements ProductService {
-
-    private Map<Long, Product> database = new HashMap<>();
+public class ProductRepository {
+    private Map<Long, Product> products = new HashMap<>();
     private Long PRODUCT_ID_SEQUENCE = 0L;
 
-    public Product findBy(Long id) {
+    public Product findById(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("Id must be not null");
         }
-        return database.get(id);
+        return products.get(id);
     }
 
-    @Override
-    public Long create(Product product) {
+    public Long insert(Product product) {
         if (product == null) {
             throw new IllegalArgumentException("Cannot be null");
         }
         product.setId(PRODUCT_ID_SEQUENCE);
 
-        database.put(PRODUCT_ID_SEQUENCE, product);
+        products.put(PRODUCT_ID_SEQUENCE, product);
         return PRODUCT_ID_SEQUENCE++;
     }
-
 }

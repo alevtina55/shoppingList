@@ -1,5 +1,13 @@
 package com.javaguru.shoppinglist;
 
+import com.javaguru.shoppinglist.console.ConsoleUI;
+import com.javaguru.shoppinglist.console.action.Action;
+import com.javaguru.shoppinglist.console.action.CreateProductAction;
+import com.javaguru.shoppinglist.console.action.ExitAction;
+import com.javaguru.shoppinglist.console.action.FindProductByIdAction;
+import com.javaguru.shoppinglist.service.DefaultProductService;
+import com.javaguru.shoppinglist.service.ProductService;
+
 import java.util.ArrayList;
 import java.util.List;
 

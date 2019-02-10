@@ -1,4 +1,7 @@
-package com.javaguru.shoppinglist;
+package com.javaguru.shoppinglist.console.action;
+
+import com.javaguru.shoppinglist.domain.Product;
+import com.javaguru.shoppinglist.service.ProductService;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
@@ -9,7 +12,6 @@ public class CreateProductAction implements Action {
 
     private final ProductService productService;
 
-    private final Validator validator = new Validator();
 
     public CreateProductAction(ProductService productService) {
         this.productService = productService;
@@ -21,15 +23,12 @@ public class CreateProductAction implements Action {
         try {
             System.out.println("Enter product name:");
             String name = scanner.nextLine();
-            validator.validateName(name);
             System.out.println("Enter product price: ");
             BigDecimal price = new BigDecimal(scanner.nextLine());
-            validator.validatePrice(price);
             System.out.println("Enter product category: ");
             String category = scanner.nextLine();
             System.out.println("Enter product discount: ");
             BigDecimal discount = new BigDecimal(scanner.nextLine());
-            validator.validateDiscount(discount);
             System.out.println("Enter product description: ");
             String description = scanner.nextLine();
 
