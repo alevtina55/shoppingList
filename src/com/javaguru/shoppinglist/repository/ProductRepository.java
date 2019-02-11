@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class ProductRepository {
     private Map<Long, Product> products = new HashMap<>();
-    private Long PRODUCT_ID_SEQUENCE = 0L;
+    private Long productIdSequence = 0L;
 
     public Product findById(Long id) {
         if (id == null) {
@@ -20,9 +20,9 @@ public class ProductRepository {
         if (product == null) {
             throw new IllegalArgumentException("Cannot be null");
         }
-        product.setId(PRODUCT_ID_SEQUENCE);
+        product.setId(productIdSequence);
 
-        products.put(PRODUCT_ID_SEQUENCE, product);
-        return PRODUCT_ID_SEQUENCE++;
+        products.put(productIdSequence, product);
+        return productIdSequence++;
     }
 }
