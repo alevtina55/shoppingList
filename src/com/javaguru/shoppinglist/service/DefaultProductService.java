@@ -16,7 +16,14 @@ public class DefaultProductService implements ProductService {
     @Override
     public Long create(Product product) {
         validationService.validate(product);
+        checkIfNameIsUnique(product.getName());
         repository.insert(product);
         return product.getId();
+    }
+
+    private void checkIfNameIsUnique(String name) {
+        if (repository.existsWithName(name)) {
+            throw new IllegalArgumentException("Name is not unique");
+        }
     }
 }

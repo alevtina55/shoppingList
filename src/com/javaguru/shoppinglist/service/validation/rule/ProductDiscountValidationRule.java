@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 public class ProductDiscountValidationRule implements ProductValidationRule {
     private static final BigDecimal DISCOUNT_MIN_VALUE = BigDecimal.ZERO;
     private static final BigDecimal DISCOUNT_MAX_VALUE = new BigDecimal(100);
+    private static final BigDecimal MIN_PRICE_TO_SET_DISCOUNT = new BigDecimal(20);
 
     @Override
     public void validate(Product product) {
@@ -15,6 +16,7 @@ public class ProductDiscountValidationRule implements ProductValidationRule {
         BigDecimal discount = product.getDiscount();
         checkIfDiscountNotNull(discount);
         checkIfInAllowedDiapason(discount);
+        checkIfAllowedToSetDiscount(product);
     }
 
     private void checkIfDiscountNotNull(BigDecimal discount) {
@@ -28,6 +30,13 @@ public class ProductDiscountValidationRule implements ProductValidationRule {
             throw new ProductValidationException("Discount should not be less than "
                     + DISCOUNT_MIN_VALUE + " and greater than " + DISCOUNT_MAX_VALUE);
         }
+    }
 
+    private void checkIfAllowedToSetDiscount(Product product) {
+        if (product.getPrice().compareTo(MIN_PRICE_TO_SET_DISCOUNT) < 0
+                && product.getDiscount().compareTo(BigDecimal.ZERO) > 0) {
+            throw new ProductValidationException("Can not add discount while price is less than "
+                    + MIN_PRICE_TO_SET_DISCOUNT);
+        }
     }
 }

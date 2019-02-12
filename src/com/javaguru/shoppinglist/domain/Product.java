@@ -11,6 +11,7 @@ public class Product {
     private String category;
     private BigDecimal discount;
     private String description;
+    private BigDecimal actualPrice;
 
     public Long getId() {
         return id;
@@ -33,7 +34,8 @@ public class Product {
     }
 
     public void setPrice(BigDecimal price) {
-        this.price = price;
+        this.price = price.setScale(2, BigDecimal.ROUND_HALF_UP);
+        this.actualPrice = price;
     }
 
     public String getCategory() {
@@ -50,6 +52,8 @@ public class Product {
 
     public void setDiscount(BigDecimal discount) {
         this.discount = discount;
+        this.actualPrice = price.multiply(BigDecimal.ONE.subtract(discount.divide(
+                new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP)));
     }
 
     public String getDescription() {
@@ -58,6 +62,10 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public BigDecimal getActualPrice() {
+        return actualPrice;
     }
 
     @Override
@@ -81,6 +89,10 @@ public class Product {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
+                ", category='" + category + '\'' +
+                ", discount=" + discount +
+                ", description='" + description + '\'' +
+                ", actualPrice=" + actualPrice +
                 '}';
     }
 }

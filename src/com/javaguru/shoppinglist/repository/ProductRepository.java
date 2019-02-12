@@ -25,4 +25,13 @@ public class ProductRepository {
         products.put(productIdSequence, product);
         return productIdSequence++;
     }
+
+    public boolean existsWithName(String name) {
+        for (Product product : products.values()) {
+            if (product.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
