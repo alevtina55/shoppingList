@@ -34,8 +34,7 @@ public class Product {
     }
 
     public void setPrice(BigDecimal price) {
-        this.price = price.setScale(2, BigDecimal.ROUND_HALF_UP);
-        this.actualPrice = price;
+        this.price = price;
     }
 
     public String getCategory() {
@@ -52,8 +51,6 @@ public class Product {
 
     public void setDiscount(BigDecimal discount) {
         this.discount = discount;
-        this.actualPrice = price.multiply(BigDecimal.ONE.subtract(discount.divide(
-                new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP)));
     }
 
     public String getDescription() {
@@ -66,6 +63,10 @@ public class Product {
 
     public BigDecimal getActualPrice() {
         return actualPrice;
+    }
+
+    public void setActualPrice(BigDecimal actualPrice) {
+        this.actualPrice = actualPrice;
     }
 
     @Override
