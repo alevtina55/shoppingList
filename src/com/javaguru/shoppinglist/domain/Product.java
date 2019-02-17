@@ -11,6 +11,7 @@ public class Product {
     private String category;
     private BigDecimal discount;
     private String description;
+    private BigDecimal actualPrice;
 
     public Long getId() {
         return id;
@@ -60,6 +61,14 @@ public class Product {
         this.description = description;
     }
 
+    public BigDecimal getActualPrice() {
+        return actualPrice;
+    }
+
+    public void setActualPrice(BigDecimal actualPrice) {
+        this.actualPrice = actualPrice;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -81,6 +90,10 @@ public class Product {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
+                ", category='" + category + '\'' +
+                ", discount=" + discount +
+                ", description='" + description + '\'' +
+                ", actualPrice=" + actualPrice +
                 '}';
     }
 }

@@ -9,9 +9,9 @@ import java.util.Scanner;
 public class CreateProductAction implements Action {
 
     private static final String ACTION_NAME = "Create Product";
+    private static final int PRICE_SCALE = 2;
 
     private final ProductService productService;
-
 
     public CreateProductAction(ProductService productService) {
         this.productService = productService;
@@ -24,7 +24,8 @@ public class CreateProductAction implements Action {
             System.out.println("Enter product name:");
             String name = scanner.nextLine();
             System.out.println("Enter product price: ");
-            BigDecimal price = new BigDecimal(scanner.nextLine());
+            BigDecimal price = new BigDecimal(scanner.nextLine())
+                    .setScale(PRICE_SCALE, BigDecimal.ROUND_HALF_UP);
             System.out.println("Enter product category: ");
             String category = scanner.nextLine();
             System.out.println("Enter product discount: ");
@@ -32,12 +33,15 @@ public class CreateProductAction implements Action {
             System.out.println("Enter product description: ");
             String description = scanner.nextLine();
 
+            BigDecimal actualPrice = productService.calculateActualPrice(price, discount);
+
             Product product = new Product();
             product.setName(name);
             product.setPrice(price);
             product.setCategory(category);
             product.setDiscount(discount);
             product.setDescription(description);
+            product.setActualPrice(actualPrice);
 
             Long response = productService.create(product);
             System.out.println("Response: " + response);

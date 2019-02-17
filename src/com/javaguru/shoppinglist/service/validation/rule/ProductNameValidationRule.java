@@ -12,8 +12,8 @@ public class ProductNameValidationRule implements ProductValidationRule {
         checkNotNull(product);
         String name = product.getName();
         checkIfNameNotNull(name);
-        checkNameMinLength(name.trim());
-        checkNameMaxLength(name.trim());
+        checkNameMinLength(name);
+        checkNameMaxLength(name);
     }
 
     private void checkIfNameNotNull(String name) {
@@ -23,16 +23,14 @@ public class ProductNameValidationRule implements ProductValidationRule {
     }
 
     private void checkNameMinLength(String name) {
-        if (name.length() < MIN_LENGTH_VALUE) {
+        if (name.trim().length() < MIN_LENGTH_VALUE) {
             throw new ProductValidationException("Name is too short");
         }
     }
 
     private void checkNameMaxLength(String name) {
-        if (name.length() > MAX_LENGTH_VALUE) {
+        if (name.trim().length() > MAX_LENGTH_VALUE) {
             throw new ProductValidationException("Name is to long");
         }
     }
-
-
 }
