@@ -33,7 +33,7 @@ public class CreateProductAction implements Action {
             System.out.println("Enter product description: ");
             String description = scanner.nextLine();
 
-            BigDecimal actualPrice = productService.countActualPrice(price, discount);
+            BigDecimal actualPrice = productService.calculateActualPrice(price, discount);
 
             Product product = new Product();
             product.setName(name);

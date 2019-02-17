@@ -10,5 +10,5 @@ public interface ProductService {
 
     Product findProductById(Long id);
 
-    BigDecimal countActualPrice(BigDecimal price, BigDecimal discount);
+    BigDecimal calculateActualPrice(BigDecimal price, BigDecimal discount);
 }

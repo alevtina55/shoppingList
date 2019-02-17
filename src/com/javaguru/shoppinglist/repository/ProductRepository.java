@@ -20,13 +20,18 @@ public class ProductRepository {
         if (product == null) {
             throw new IllegalArgumentException("Cannot be null");
         }
+
+        if (nameExists(product.getName())) {
+            throw new IllegalArgumentException("Product name is not unique");
+        }
+
         product.setId(productIdSequence);
 
         products.put(productIdSequence, product);
         return productIdSequence++;
     }
 
-    public boolean existsWithName(String name) {
+    private boolean nameExists(String name) {
         for (Product product : products.values()) {
             if (product.getName().equals(name)) {
                 return true;
