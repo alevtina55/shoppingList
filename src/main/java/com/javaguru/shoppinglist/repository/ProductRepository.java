@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ProductRepository {
-    private Map<Long, Product> products = new HashMap<>();
+    private final Map<Long, Product> products = new HashMap<>();
     private Long productIdSequence = 0L;
 
     public Product findById(Long id) {
@@ -20,23 +20,14 @@ public class ProductRepository {
         if (product == null) {
             throw new IllegalArgumentException("Cannot be null");
         }
-
-        if (nameExists(product.getName())) {
-            throw new IllegalArgumentException("Product name is not unique");
-        }
-
         product.setId(productIdSequence);
 
         products.put(productIdSequence, product);
         return productIdSequence++;
     }
 
-    private boolean nameExists(String name) {
-        for (Product product : products.values()) {
-            if (product.getName().equals(name)) {
-                return true;
-            }
-        }
-        return false;
+    public boolean existsByName(String name) {
+        return products.values().stream()
+                .anyMatch(product -> product.getName().equalsIgnoreCase(name));
     }
 }
