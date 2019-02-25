@@ -6,6 +6,8 @@ import com.javaguru.shoppinglist.service.validation.ProductValidationService;
 
 import java.math.BigDecimal;
 
+import static java.math.RoundingMode.HALF_UP;
+
 public class DefaultProductService implements ProductService {
 
     private static final BigDecimal ONE_HUNDRED = new BigDecimal(100);
@@ -29,7 +31,7 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public BigDecimal calculateActualPrice(BigDecimal price, BigDecimal discount) {
-        BigDecimal discountValue = price.divide(ONE_HUNDRED, PRICE_SCALE).multiply(discount);
+        BigDecimal discountValue = price.divide(ONE_HUNDRED, PRICE_SCALE, HALF_UP).multiply(discount);
         return price.subtract(discountValue);
     }
 }

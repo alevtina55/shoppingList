@@ -21,7 +21,7 @@ public class ProductDiscountValidationRule implements ProductValidationRule {
 
     private void checkIfDiscountNotNull(BigDecimal discount) {
         if (discount == null) {
-            throw new ProductValidationException("Product name must be not null");
+            throw new ProductValidationException("Product discount must be not null");
         }
     }
 
