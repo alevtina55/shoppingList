@@ -22,14 +22,6 @@ public class ProductRepositoryTest {
     private Product product = product();
 
     @Test
-    public void shouldThrowIllegalArgumentException() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Cannot be null");
-
-        victim.insert(null);
-    }
-
-    @Test
     public void shouldInsertSuccessfully() {
         Long result = victim.insert(product);
 

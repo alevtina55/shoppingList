@@ -23,6 +23,7 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public Product findProductById(Long id) {
+        checkNotNullId(id);
         return repository.findById(id);
     }
 
@@ -39,4 +40,12 @@ public class DefaultProductService implements ProductService {
         BigDecimal discountValue = price.divide(ONE_HUNDRED, PRICE_SCALE, HALF_UP).multiply(discount);
         return price.subtract(discountValue);
     }
+
+    private void checkNotNullId(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Id must be not null");
+        }
+    }
+
+
 }
