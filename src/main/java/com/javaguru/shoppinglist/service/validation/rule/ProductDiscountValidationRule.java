@@ -3,8 +3,11 @@ package com.javaguru.shoppinglist.service.validation.rule;
 import com.javaguru.shoppinglist.domain.Product;
 import com.javaguru.shoppinglist.service.validation.ProductValidationException;
 
+import org.springframework.stereotype.Component;
+
 import java.math.BigDecimal;
 
+@Component
 public class ProductDiscountValidationRule implements ProductValidationRule {
     private static final BigDecimal DISCOUNT_MIN_VALUE = BigDecimal.ZERO;
     private static final BigDecimal DISCOUNT_MAX_VALUE = new BigDecimal(100);

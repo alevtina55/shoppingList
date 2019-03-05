@@ -3,6 +3,9 @@ package com.javaguru.shoppinglist.service.validation.rule;
 import com.javaguru.shoppinglist.domain.Product;
 import com.javaguru.shoppinglist.service.validation.ProductValidationException;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class ProductNameValidationRule implements ProductValidationRule {
     private static final int MIN_LENGTH_VALUE = 3;
     private static final int MAX_LENGTH_VALUE = 32;

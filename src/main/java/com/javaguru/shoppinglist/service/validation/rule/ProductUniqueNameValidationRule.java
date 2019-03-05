@@ -4,10 +4,15 @@ import com.javaguru.shoppinglist.domain.Product;
 import com.javaguru.shoppinglist.repository.ProductRepository;
 import com.javaguru.shoppinglist.service.validation.ProductValidationException;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
 public class ProductUniqueNameValidationRule implements ProductValidationRule {
 
     private final ProductRepository productRepository;
 
+    @Autowired
     public ProductUniqueNameValidationRule(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
