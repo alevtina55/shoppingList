@@ -10,14 +10,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class ProductRepositoryTest {
+public class InMemoryProductRepositoryTest {
     private static final String PRODUCT_NAME = "PRODUCT_NAME";
     private static final long PRODUCT_ID = 0L;
 
     @Rule
     public final ExpectedException expectedException = ExpectedException.none();
 
-    private ProductRepository victim = new ProductRepository();
+    private InMemoryProductRepository victim = new InMemoryProductRepository();
 
     private Product product = product();
 
@@ -32,7 +32,7 @@ public class ProductRepositoryTest {
     public void shouldFindByID() {
         victim.insert(product);
 
-        Product resultProduct = victim.findById(PRODUCT_ID);
+        Product resultProduct = victim.findById(PRODUCT_ID).get();
 
         assertEquals(expectedProduct(), resultProduct);
     }

@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -35,9 +36,9 @@ public class DefaultProductServiceTest {
 
     @Test
     public void shouldFindProduct() {
-        when(repository.findById(100L)).thenReturn(product());
+        when(repository.findById(100L)).thenReturn(Optional.of(product()));
 
-        Product result = victim.findProductById(100L);
+        Product result = victim.findProductById(100L).get();
         assertEquals(product(), result);
     }
 
