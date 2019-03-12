@@ -1,5 +1,8 @@
 package com.javaguru.shoppinglist.console.action;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class ExitAction implements Action {
 
     private static final String ACTION_NAME = "Exit";

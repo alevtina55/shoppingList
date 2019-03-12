@@ -4,10 +4,14 @@ import com.javaguru.shoppinglist.domain.Product;
 import com.javaguru.shoppinglist.repository.ProductRepository;
 import com.javaguru.shoppinglist.service.validation.ProductValidationService;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.math.BigDecimal;
 
 import static java.math.RoundingMode.HALF_UP;
 
+@Service
 public class DefaultProductService implements ProductService {
 
     private static final BigDecimal ONE_HUNDRED = new BigDecimal(100);
@@ -16,6 +20,7 @@ public class DefaultProductService implements ProductService {
     private final ProductRepository repository;
     private final ProductValidationService validationService;
 
+    @Autowired
     public DefaultProductService(ProductRepository repository, ProductValidationService validationService) {
         this.repository = repository;
         this.validationService = validationService;
