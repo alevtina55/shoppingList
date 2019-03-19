@@ -2,22 +2,19 @@ package com.javaguru.shoppinglist.repository;
 
 import com.javaguru.shoppinglist.domain.Product;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
-import static org.junit.Assert.assertEquals;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class ProductRepositoryTest {
+public class InMemoryProductRepositoryTest {
     private static final String PRODUCT_NAME = "PRODUCT_NAME";
     private static final long PRODUCT_ID = 0L;
 
-    @Rule
-    public final ExpectedException expectedException = ExpectedException.none();
-
-    private ProductRepository victim = new ProductRepository();
+    private InMemoryProductRepository victim = new InMemoryProductRepository();
 
     private Product product = product();
 
@@ -25,16 +22,17 @@ public class ProductRepositoryTest {
     public void shouldInsertSuccessfully() {
         Long result = victim.insert(product);
 
-        assertEquals(expectedProduct().getId(), result);
+        assertThat(result).isEqualTo(expectedProduct().getId());
     }
 
     @Test
     public void shouldFindByID() {
         victim.insert(product);
 
-        Product resultProduct = victim.findById(PRODUCT_ID);
+        Optional<Product> resultProduct = victim.findById(PRODUCT_ID);
 
-        assertEquals(expectedProduct(), resultProduct);
+        assertThat(resultProduct).isNotEmpty();
+        assertThat(resultProduct).hasValue(expectedProduct());
     }
 
     @Test

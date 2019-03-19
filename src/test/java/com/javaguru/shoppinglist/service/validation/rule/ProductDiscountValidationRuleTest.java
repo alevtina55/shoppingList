@@ -3,15 +3,15 @@ package com.javaguru.shoppinglist.service.validation.rule;
 import com.javaguru.shoppinglist.domain.Product;
 import com.javaguru.shoppinglist.service.validation.ProductValidationException;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.math.BigDecimal;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+
 public class ProductDiscountValidationRuleTest {
-    @Rule
-    public final ExpectedException expectedException = ExpectedException.none();
+
     private ProductDiscountValidationRule victim = new ProductDiscountValidationRule();
     private Product input;
 
@@ -19,20 +19,18 @@ public class ProductDiscountValidationRuleTest {
     public void shouldThrowProductValidationException() {
         input = product(null);
 
-        expectedException.expect(ProductValidationException.class);
-        expectedException.expectMessage("Product discount must be not null");
-
-        victim.validate(input);
+        assertThatThrownBy(() -> victim.validate(input))
+                .isInstanceOf(ProductValidationException.class)
+                .hasMessage("Product discount must be not null");
     }
 
     @Test
     public void shouldThrowProductValidationExceptionDueToAllowedDiapason() {
         input = product(new BigDecimal(120));
 
-        expectedException.expect(ProductValidationException.class);
-        expectedException.expectMessage("Discount should not be less than 0 and greater than 100");
-
-        victim.validate(input);
+        assertThatThrownBy(() -> victim.validate(input))
+                .isInstanceOf(ProductValidationException.class)
+                .hasMessage("Discount should not be less than 0 and greater than 100");
     }
 
     @Test

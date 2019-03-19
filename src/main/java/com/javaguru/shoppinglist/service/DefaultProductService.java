@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import static java.math.RoundingMode.HALF_UP;
 
@@ -27,7 +28,7 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public Product findProductById(Long id) {
+    public Optional<Product> findProductById(Long id) {
         checkNotNullId(id);
         return repository.findById(id);
     }
@@ -36,8 +37,10 @@ public class DefaultProductService implements ProductService {
     public Long create(Product product) {
         validationService.validate(product);
 
-        repository.insert(product);
-        return product.getId();
+        Long id = repository.insert(product);
+
+        product.setId(id);
+        return id;
     }
 
     @Override

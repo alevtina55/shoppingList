@@ -3,13 +3,11 @@ package com.javaguru.shoppinglist.service.validation.rule;
 import com.javaguru.shoppinglist.domain.Product;
 import com.javaguru.shoppinglist.service.validation.ProductValidationException;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class ProductNameValidationRuleTest {
-    @Rule
-    public final ExpectedException expectedException = ExpectedException.none();
 
     private ProductNameValidationRule victim = new ProductNameValidationRule();
 
@@ -19,20 +17,18 @@ public class ProductNameValidationRuleTest {
     public void shouldThrowProductValidationException() {
         input = product(null);
 
-        expectedException.expect(ProductValidationException.class);
-        expectedException.expectMessage("Product name must be not null");
-
-        victim.validate(input);
+        assertThatThrownBy(() -> victim.validate(input))
+                .isInstanceOf(ProductValidationException.class)
+                .hasMessage("Product name must be not null");
     }
 
     @Test
     public void shouldThrowProductValidationExceptionDueToMinLengths() {
         input = product("ab ");
 
-        expectedException.expect(ProductValidationException.class);
-        expectedException.expectMessage("Name is too short");
-
-        victim.validate(input);
+        assertThatThrownBy(() -> victim.validate(input))
+                .isInstanceOf(ProductValidationException.class)
+                .hasMessage("Name is too short");
     }
 
     @Test

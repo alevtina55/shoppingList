@@ -3,16 +3,13 @@ package com.javaguru.shoppinglist.service.validation.rule;
 import com.javaguru.shoppinglist.domain.Product;
 import com.javaguru.shoppinglist.service.validation.ProductValidationException;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.math.BigDecimal;
 
-public class ProductPriceValidationRuleTest {
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-    @Rule
-    public final ExpectedException expectedException = ExpectedException.none();
+public class ProductPriceValidationRuleTest {
 
     private ProductPriceValidationRule victim = new ProductPriceValidationRule();
 
@@ -22,20 +19,17 @@ public class ProductPriceValidationRuleTest {
     public void shouldThrowProductValidationException() {
         input = product(null);
 
-        expectedException.expect(ProductValidationException.class);
-        expectedException.expectMessage("Product price must be not null");
-
-        victim.validate(input);
+        assertThatThrownBy(() -> victim.validate(input))
+                .isInstanceOf(ProductValidationException.class)
+                .hasMessage("Product price must be not null");
     }
 
     @Test
     public void shouldThrowProductValidationExceptionDueToMinValue() {
         input = product(new BigDecimal(-5));
-
-        expectedException.expect(ProductValidationException.class);
-        expectedException.expectMessage("Price should be greater than 0");
-
-        victim.validate(input);
+        assertThatThrownBy(() -> victim.validate(input))
+                .isInstanceOf(ProductValidationException.class)
+                .hasMessage("Price should be greater than 0");
     }
 
     @Test
