@@ -17,12 +17,12 @@ import java.util.Optional;
 
 @Component
 @Profile("local")
-public class DefaultRepository implements ProductRepository {
+public class JdbcProductRepository implements ProductRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public DefaultRepository(JdbcTemplate jdbcTemplate) {
+    public JdbcProductRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
