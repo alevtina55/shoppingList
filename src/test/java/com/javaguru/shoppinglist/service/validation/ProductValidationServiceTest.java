@@ -20,22 +20,22 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ProductValidationServiceTest {
     @Mock
-    ProductDiscountValidationRule productDiscountValidationRule;
+    private ProductDiscountValidationRule productDiscountValidationRule;
 
     @Mock
-    ProductNameValidationRule productNameValidationRule;
+    private ProductNameValidationRule productNameValidationRule;
 
     @Mock
-    ProductPriceValidationRule productPriceValidationRule;
+    private ProductPriceValidationRule productPriceValidationRule;
 
     @Mock
-    ProductUniqueNameValidationRule productUniqueNameValidationRule;
+    private ProductUniqueNameValidationRule productUniqueNameValidationRule;
 
     @Captor
     private ArgumentCaptor<Product> captor;
@@ -66,7 +66,7 @@ public class ProductValidationServiceTest {
         verify(productUniqueNameValidationRule).validate(captor.capture());
 
         List<Product> resultList = captor.getAllValues();
-        resultList.forEach(product1 -> assertEquals(product1, product));
+        assertThat(resultList).containsOnly(product);
     }
 
 

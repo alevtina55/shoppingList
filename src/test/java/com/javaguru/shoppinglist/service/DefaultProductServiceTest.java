@@ -15,8 +15,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.math.BigDecimal;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -36,10 +35,12 @@ public class DefaultProductServiceTest {
 
     @Test
     public void shouldFindProduct() {
-        when(repository.findById(100L)).thenReturn(Optional.of(product()));
+        when(repository.findById(100L)).thenReturn(Optional.ofNullable(product()));
 
-        Product result = victim.findProductById(100L).get();
-        assertEquals(product(), result);
+        Optional<Product> result = victim.findProductById(100L);
+
+        assertThat(result).isNotEmpty();
+        assertThat(result).hasValue(product());
     }
 
     @Test
@@ -51,15 +52,15 @@ public class DefaultProductServiceTest {
         verify(validationService).validate(productCaptor.capture());
         Product captorResult = productCaptor.getValue();
 
-        assertEquals(captorResult, product);
-        assertEquals(product.getId(), result);
+        assertThat(captorResult).isEqualTo(product);
+        assertThat(product.getId()).isEqualTo(result);
     }
 
     @Test
     public void shouldCalculateActualPrice() {
         BigDecimal result = victim.calculateActualPrice(new BigDecimal(40.00),
                 new BigDecimal(50.00));
-        assertTrue(new BigDecimal(20).compareTo(result) == 0);
+        assertThat(new BigDecimal(20)).isEqualByComparingTo(result);
     }
 
     private Product product() {

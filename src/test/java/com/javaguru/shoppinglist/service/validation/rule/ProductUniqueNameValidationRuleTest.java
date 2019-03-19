@@ -4,9 +4,7 @@ import com.javaguru.shoppinglist.domain.Product;
 import com.javaguru.shoppinglist.repository.ProductRepository;
 import com.javaguru.shoppinglist.service.validation.ProductValidationException;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -14,12 +12,11 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.math.BigDecimal;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ProductUniqueNameValidationRuleTest {
-    @Rule
-    public final ExpectedException expectedException = ExpectedException.none();
 
     private Product input;
 
@@ -33,21 +30,19 @@ public class ProductUniqueNameValidationRuleTest {
     public void shouldThrowProductValidationExceptionDueToNullName() {
         input = product(null);
 
-        expectedException.expect(ProductValidationException.class);
-        expectedException.expectMessage("Product name must be not null");
-
-        victim.validate(input);
+        assertThatThrownBy(() -> victim.validate(input))
+                .isInstanceOf(ProductValidationException.class)
+                .hasMessage("Product name must be not null");
     }
 
     @Test
     public void shouldThrowProductValidationExceptionDueToUnique() {
         input = product("PRODUCT_NAME");
 
-        expectedException.expect(ProductValidationException.class);
-        expectedException.expectMessage("Product name have to be unique");
-
         when(repository.existsByName("PRODUCT_NAME")).thenReturn(true);
-        victim.validate(input);
+        assertThatThrownBy(() -> victim.validate(input))
+                .isInstanceOf(ProductValidationException.class)
+                .hasMessage("Product name have to be unique");
     }
 
     @Test
