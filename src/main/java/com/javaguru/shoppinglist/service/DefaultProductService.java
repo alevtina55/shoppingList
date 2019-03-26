@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import static java.math.RoundingMode.HALF_UP;
 
 @Service
@@ -34,13 +36,10 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
+    @Transactional
     public Long create(Product product) {
         validationService.validate(product);
-
-        Long id = repository.insert(product);
-
-        product.setId(id);
-        return id;
+        return repository.insert(product);
     }
 
     @Override
@@ -54,6 +53,4 @@ public class DefaultProductService implements ProductService {
             throw new IllegalArgumentException("Id must be not null");
         }
     }
-
-
 }
