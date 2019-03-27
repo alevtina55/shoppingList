@@ -28,7 +28,7 @@ public class ConsoleUI {
                 response = scanner.nextInt();
                 actions.get(response).execute();
             } catch (Exception e) {
-                System.out.println("Error! Please try again.");
+                System.out.println("Error! Please try again. " + e.getMessage());
             }
         }
     }
