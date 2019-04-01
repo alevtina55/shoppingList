@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Optional;
-
-import javax.transaction.Transactional;
+import java.util.NoSuchElementException;
 
 import static java.math.RoundingMode.HALF_UP;
 
@@ -30,13 +28,13 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public Optional<Product> findProductById(Long id) {
+    public Product findProductById(Long id) {
         checkNotNullId(id);
-        return repository.findById(id);
+        return repository.findById(id).orElseThrow(() ->
+                new NoSuchElementException("There is no product with id: " + id));
     }
 
     @Override
-    @Transactional
     public Long create(Product product) {
         validationService.validate(product);
         return repository.insert(product);
@@ -44,7 +42,8 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public BigDecimal calculateActualPrice(BigDecimal price, BigDecimal discount) {
-        BigDecimal discountValue = price.divide(ONE_HUNDRED, PRICE_SCALE, HALF_UP).multiply(discount);
+        BigDecimal discountValue = price.divide(ONE_HUNDRED, PRICE_SCALE, HALF_UP)
+                .multiply(discount);
         return price.subtract(discountValue);
     }
 

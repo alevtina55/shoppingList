@@ -10,8 +10,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 @Repository
 @Profile("hibernate")
+@Transactional
 public class HibernateProductRepository implements ProductRepository {
     private final SessionFactory sessionFactory;
 

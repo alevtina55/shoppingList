@@ -37,10 +37,9 @@ public class DefaultProductServiceTest {
     public void shouldFindProduct() {
         when(repository.findById(100L)).thenReturn(Optional.ofNullable(product()));
 
-        Optional<Product> result = victim.findProductById(100L);
+        Product result = victim.findProductById(100L);
 
-        assertThat(result).isNotEmpty();
-        assertThat(result).hasValue(product());
+        assertThat(result).isEqualTo(product());
     }
 
     @Test
