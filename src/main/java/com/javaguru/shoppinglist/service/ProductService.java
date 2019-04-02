@@ -10,5 +10,9 @@ public interface ProductService {
 
     Product findProductById(Long id);
 
+    void deleteProductById(Long id);
+
     BigDecimal calculateActualPrice(BigDecimal price, BigDecimal discount);
+
+    void updateDescription(Long id, String newDescription);
 }

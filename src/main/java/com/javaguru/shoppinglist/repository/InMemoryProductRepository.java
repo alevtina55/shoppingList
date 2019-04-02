@@ -30,4 +30,12 @@ public class InMemoryProductRepository implements ProductRepository {
         return products.values().stream()
                 .anyMatch(product -> product.getName().equalsIgnoreCase(name));
     }
+
+    public void delete(Product product) {
+        products.remove(product.getId());
+    }
+
+    public void update(Product product) {
+
+    }
 }

@@ -22,7 +22,8 @@ public class DefaultProductService implements ProductService {
     private final ProductValidationService validationService;
 
     @Autowired
-    public DefaultProductService(ProductRepository repository, ProductValidationService validationService) {
+    public DefaultProductService(ProductRepository repository,
+                                 ProductValidationService validationService) {
         this.repository = repository;
         this.validationService = validationService;
     }
@@ -36,8 +37,15 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public Long create(Product product) {
+        BigDecimal actualPrice = calculateActualPrice(product.getPrice(), product.getDiscount());
+        product.setActualPrice(actualPrice);
         validationService.validate(product);
         return repository.insert(product);
+    }
+
+    public void deleteProductById(Long id) {
+        Product product = findProductById(id);
+        repository.delete(product);
     }
 
     @Override
@@ -45,6 +53,12 @@ public class DefaultProductService implements ProductService {
         BigDecimal discountValue = price.divide(ONE_HUNDRED, PRICE_SCALE, HALF_UP)
                 .multiply(discount);
         return price.subtract(discountValue);
+    }
+
+    public void updateDescription(Long id, String newDescription) {
+        Product product = findProductById(id);
+        product.setDescription(newDescription);
+        repository.update(product);
     }
 
     private void checkNotNullId(Long id) {

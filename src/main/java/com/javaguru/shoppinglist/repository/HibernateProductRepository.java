@@ -42,4 +42,12 @@ public class HibernateProductRepository implements ProductRepository {
                 .add(Restrictions.eq("name", name)).setMaxResults(1).uniqueResult();
         return product != null;
     }
+
+    public void update(Product product) {
+        sessionFactory.getCurrentSession().update(product);
+    }
+
+    public void delete(Product product) {
+        sessionFactory.getCurrentSession().delete(product);
+    }
 }

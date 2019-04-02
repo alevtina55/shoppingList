@@ -64,8 +64,9 @@ public class ShoppingCartItemService {
 
     public void deleteItem(Long id) {
         ShoppingCartItem shoppingCartItem = findItemById(id);
-
-        shoppingCartItemRepository.delete(shoppingCartItem);
+        if (shoppingCartItem != null) {
+            shoppingCartItemRepository.delete(shoppingCartItem);
+        }
     }
 
     public void deleteShoppingCartItems(Long shoppingCartId) {
