@@ -1,6 +1,6 @@
 package com.javaguru.shoppinglist.service.validation.rule;
 
-import com.javaguru.shoppinglist.domain.Product;
+import com.javaguru.shoppinglist.dto.ProductDTO;
 import com.javaguru.shoppinglist.repository.ProductRepository;
 import com.javaguru.shoppinglist.service.validation.ProductValidationException;
 
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class ProductUniqueNameValidationRuleTest {
 
-    private Product input;
+    private ProductDTO input;
 
     @Mock
     private ProductRepository repository;
@@ -28,7 +28,7 @@ public class ProductUniqueNameValidationRuleTest {
 
     @Test
     public void shouldThrowProductValidationExceptionDueToNullName() {
-        input = product(null);
+        input = productDTO(null);
 
         assertThatThrownBy(() -> victim.validate(input))
                 .isInstanceOf(ProductValidationException.class)
@@ -37,7 +37,7 @@ public class ProductUniqueNameValidationRuleTest {
 
     @Test
     public void shouldThrowProductValidationExceptionDueToUnique() {
-        input = product("PRODUCT_NAME");
+        input = productDTO("PRODUCT_NAME");
 
         when(repository.existsByName("PRODUCT_NAME")).thenReturn(true);
         assertThatThrownBy(() -> victim.validate(input))
@@ -47,19 +47,19 @@ public class ProductUniqueNameValidationRuleTest {
 
     @Test
     public void shouldValidateSuccessfully() {
-        input = product("PRODUCT_NAME");
+        input = productDTO("PRODUCT_NAME");
 
         when(repository.existsByName("PRODUCT_NAME")).thenReturn(false);
 
         victim.validate(input);
     }
 
-    private Product product(String name) {
-        Product product = new Product();
-        product.setName(name);
-        product.setDiscount(new BigDecimal(50));
-        product.setPrice(new BigDecimal(50));
+    private ProductDTO productDTO(String name) {
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setName(name);
+        productDTO.setDiscount(new BigDecimal(50));
+        productDTO.setPrice(new BigDecimal(50));
 
-        return product;
+        return productDTO;
     }
 }

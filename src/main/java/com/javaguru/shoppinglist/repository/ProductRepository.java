@@ -2,6 +2,7 @@ package com.javaguru.shoppinglist.repository;
 
 import com.javaguru.shoppinglist.domain.Product;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ProductRepository {
@@ -14,4 +15,8 @@ public interface ProductRepository {
     void delete(Product product);
 
     void update(Product product);
+
+    List<Product> findAll();
+
+    Optional<Product> findByName(String name);
 }

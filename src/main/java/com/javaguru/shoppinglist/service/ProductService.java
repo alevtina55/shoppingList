@@ -1,18 +1,23 @@
 package com.javaguru.shoppinglist.service;
 
-import com.javaguru.shoppinglist.domain.Product;
+import com.javaguru.shoppinglist.dto.ProductDTO;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public interface ProductService {
 
-    Long create(Product product);
+    Long create(ProductDTO productDTO);
 
-    Product findProductById(Long id);
+    ProductDTO findProductById(Long id);
 
     void deleteProductById(Long id);
 
     BigDecimal calculateActualPrice(BigDecimal price, BigDecimal discount);
 
     void updateDescription(Long id, String newDescription);
+
+    List<ProductDTO> findAll();
+
+    ProductDTO findProductByName(String name);
 }

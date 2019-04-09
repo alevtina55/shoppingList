@@ -48,9 +48,7 @@ public class HibernateShoppingCartItemRepository {
     }
 
     public void deleteItems(List<ShoppingCartItem> items) {
-        if (!items.isEmpty()) {
-            Session session = sessionFactory.getCurrentSession();
-            items.forEach(session::delete);
-        }
+        Session session = sessionFactory.getCurrentSession();
+        items.forEach(session::delete);
     }
 }

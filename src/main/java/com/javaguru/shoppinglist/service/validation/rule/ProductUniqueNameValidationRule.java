@@ -1,6 +1,6 @@
 package com.javaguru.shoppinglist.service.validation.rule;
 
-import com.javaguru.shoppinglist.domain.Product;
+import com.javaguru.shoppinglist.dto.ProductDTO;
 import com.javaguru.shoppinglist.repository.ProductRepository;
 import com.javaguru.shoppinglist.service.validation.ProductValidationException;
 
@@ -18,10 +18,10 @@ public class ProductUniqueNameValidationRule implements ProductValidationRule {
     }
 
     @Override
-    public void validate(Product product) {
-        checkNotNull(product);
+    public void validate(ProductDTO productDTO) {
+        checkNotNull(productDTO);
 
-        String name = product.getName();
+        String name = productDTO.getName();
         checkIfNameNotNull(name);
         checkIfNameIsUnique(name);
     }

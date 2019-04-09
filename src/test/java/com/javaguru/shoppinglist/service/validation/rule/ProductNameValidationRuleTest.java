@@ -1,6 +1,6 @@
 package com.javaguru.shoppinglist.service.validation.rule;
 
-import com.javaguru.shoppinglist.domain.Product;
+import com.javaguru.shoppinglist.dto.ProductDTO;
 import com.javaguru.shoppinglist.service.validation.ProductValidationException;
 
 import org.junit.Test;
@@ -11,11 +11,11 @@ public class ProductNameValidationRuleTest {
 
     private ProductNameValidationRule victim = new ProductNameValidationRule();
 
-    private Product input;
+    private ProductDTO input;
 
     @Test
     public void shouldThrowProductValidationException() {
-        input = product(null);
+        input = productDTO(null);
 
         assertThatThrownBy(() -> victim.validate(input))
                 .isInstanceOf(ProductValidationException.class)
@@ -24,7 +24,7 @@ public class ProductNameValidationRuleTest {
 
     @Test
     public void shouldThrowProductValidationExceptionDueToMinLengths() {
-        input = product("ab ");
+        input = productDTO("ab ");
 
         assertThatThrownBy(() -> victim.validate(input))
                 .isInstanceOf(ProductValidationException.class)
@@ -33,14 +33,14 @@ public class ProductNameValidationRuleTest {
 
     @Test
     public void shouldValidateSuccessfully() {
-        input = product("product name");
+        input = productDTO("product name");
 
         victim.validate(input);
     }
 
-    private Product product(String name) {
-        Product product = new Product();
-        product.setName(name);
-        return product;
+    private ProductDTO productDTO(String name) {
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setName(name);
+        return productDTO;
     }
 }
