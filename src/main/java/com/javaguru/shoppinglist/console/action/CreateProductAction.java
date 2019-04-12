@@ -38,15 +38,12 @@ public class CreateProductAction implements Action {
             System.out.println("Enter product description: ");
             String description = scanner.nextLine();
 
-            BigDecimal actualPrice = productService.calculateActualPrice(price, discount);
-
             Product product = new Product();
             product.setName(name);
             product.setPrice(price);
             product.setCategory(category);
             product.setDiscount(discount);
             product.setDescription(description);
-            product.setActualPrice(actualPrice);
 
             Long response = productService.create(product);
             System.out.println("Response: " + response);

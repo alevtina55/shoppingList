@@ -66,4 +66,12 @@ public class JdbcProductRepository implements ProductRepository {
                 "FROM products where name='" + name + "'";
         return jdbcTemplate.queryForObject(query, Boolean.class);
     }
+
+    public void delete(Product product) {
+
+    }
+
+    public void update(Product product) {
+
+    }
 }
