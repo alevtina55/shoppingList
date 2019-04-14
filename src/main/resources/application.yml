@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/shoppingList?useLegacyDatetimeCode=false&amp&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        current_session_context_class: org.springframework.orm.hibernate4.SpringSessionContext
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect

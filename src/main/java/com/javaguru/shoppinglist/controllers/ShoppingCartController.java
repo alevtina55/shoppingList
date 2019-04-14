@@ -38,8 +38,7 @@ public class ShoppingCartController {
 
     @PostMapping
     public ResponseEntity<Void> create(@Validated({ShoppingCartDTO.Create.class})
-                                       @RequestBody ShoppingCartDTO shoppingCartDTO,
-                                       UriComponentsBuilder builder) {
+                                       @RequestBody ShoppingCartDTO shoppingCartDTO, UriComponentsBuilder builder) {
         Long id = shoppingCartService.saveShoppingCart(shoppingCartDTO);
 
         return ResponseEntity.created(builder.path("/shoppingCarts/{id}").buildAndExpand(id)
@@ -69,7 +68,6 @@ public class ShoppingCartController {
     @GetMapping("/{id}/items")
     @ResponseStatus(HttpStatus.OK)
     public List<ShoppingCartItemDTO> findShoppingCartItems(@PathVariable("id") Long id) {
-
         return shoppingCartItemService.findItemsByCartId(id);
     }
 

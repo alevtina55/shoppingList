@@ -8,6 +8,7 @@ import com.javaguru.shoppinglist.service.validation.ProductValidationService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -55,6 +56,7 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
+    @Transactional
     public void deleteProductById(Long id) {
         repository.findById(id).ifPresent(repository::delete);
     }
@@ -67,9 +69,9 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public void updateDescription(Long id, String newDescription) {
-        Product product = productConverter.convert(findProductById(id));
-        product.setDescription(newDescription);
+    public void update(ProductDTO productDTO) {
+        findProductById(productDTO.getId());
+        Product product = productConverter.convert(productDTO);
         repository.update(product);
     }
 

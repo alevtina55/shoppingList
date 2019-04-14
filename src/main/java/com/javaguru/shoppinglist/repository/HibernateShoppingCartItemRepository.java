@@ -7,7 +7,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,7 +15,6 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 @Repository
-@Profile("hibernate")
 @Transactional
 public class HibernateShoppingCartItemRepository {
     private final SessionFactory sessionFactory;

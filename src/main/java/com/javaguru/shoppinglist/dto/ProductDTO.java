@@ -9,19 +9,15 @@ import javax.validation.constraints.Null;
 
 
 public class ProductDTO {
-    @Null(groups = {Create.class, UpdateDescription.class})
+    @Null(groups = {Create.class})
     private Long id;
     @NotBlank(groups = {Create.class})
-    @Null(groups = {UpdateDescription.class})
     private String name;
-    @Null(groups = {UpdateDescription.class})
     private BigDecimal price;
-    @Null(groups = {UpdateDescription.class})
     private String category;
-    @Null(groups = {UpdateDescription.class})
     private BigDecimal discount;
     private String description;
-    @Null(groups = {Create.class, UpdateDescription.class})
+    @Null(groups = {Create.class})
     private BigDecimal actualPrice;
 
 
@@ -128,10 +124,6 @@ public class ProductDTO {
     }
 
     public interface Create {
-
-    }
-
-    public interface UpdateDescription {
 
     }
 }

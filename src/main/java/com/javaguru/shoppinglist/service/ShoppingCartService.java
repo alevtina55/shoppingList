@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
 
+import javax.transaction.Transactional;
+
 @Service
 public class ShoppingCartService {
     private final HibernateShoppingCartRepository shoppingCartRepository;
@@ -33,6 +35,7 @@ public class ShoppingCartService {
                         new NoSuchElementException("There is no shopping cart with id: " + id));
     }
 
+    @Transactional
     public void deleteShoppingCart(Long id) {
         shoppingCartRepository.findShoppingCartById(id)
                 .ifPresent(shoppingCartRepository::delete);
