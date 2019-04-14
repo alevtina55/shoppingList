@@ -1,6 +1,8 @@
 package com.javaguru.shoppinglist.service;
 
+import com.javaguru.shoppinglist.converters.ProductConverter;
 import com.javaguru.shoppinglist.domain.Product;
+import com.javaguru.shoppinglist.dto.ProductDTO;
 import com.javaguru.shoppinglist.repository.ProductRepository;
 import com.javaguru.shoppinglist.service.validation.ProductValidationService;
 
@@ -8,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import static java.math.RoundingMode.HALF_UP;
 
@@ -20,32 +24,39 @@ public class DefaultProductService implements ProductService {
 
     private final ProductRepository repository;
     private final ProductValidationService validationService;
+    private final ProductConverter productConverter;
 
     @Autowired
     public DefaultProductService(ProductRepository repository,
-                                 ProductValidationService validationService) {
+                                 ProductValidationService validationService, ProductConverter productConverter) {
         this.repository = repository;
         this.validationService = validationService;
+        this.productConverter = productConverter;
     }
 
     @Override
-    public Product findProductById(Long id) {
+    public ProductDTO findProductById(Long id) {
         checkNotNullId(id);
-        return repository.findById(id).orElseThrow(() ->
-                new NoSuchElementException("There is no product with id: " + id));
+        return repository.findById(id).map(productConverter::convert)
+                .orElseThrow(() ->
+                        new NoSuchElementException("There is no product with id: " + id));
     }
 
     @Override
-    public Long create(Product product) {
-        BigDecimal actualPrice = calculateActualPrice(product.getPrice(), product.getDiscount());
-        product.setActualPrice(actualPrice);
-        validationService.validate(product);
+    public Long create(ProductDTO productDTO) {
+        BigDecimal actualPrice = calculateActualPrice(productDTO.getPrice(),
+                productDTO.getDiscount());
+        productDTO.setActualPrice(actualPrice);
+        validationService.validate(productDTO);
+
+        Product product = productConverter.convert(productDTO);
+
         return repository.insert(product);
     }
 
+    @Override
     public void deleteProductById(Long id) {
-        Product product = findProductById(id);
-        repository.delete(product);
+        repository.findById(id).ifPresent(repository::delete);
     }
 
     @Override
@@ -55,11 +66,25 @@ public class DefaultProductService implements ProductService {
         return price.subtract(discountValue);
     }
 
+    @Override
     public void updateDescription(Long id, String newDescription) {
-        Product product = findProductById(id);
+        Product product = productConverter.convert(findProductById(id));
         product.setDescription(newDescription);
         repository.update(product);
     }
+
+    @Override
+    public List<ProductDTO> findAll() {
+        return repository.findAll().stream().map(productConverter::convert)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public ProductDTO findProductByName(String name) {
+        return productConverter.convert(repository.findByName(name).orElseThrow(() ->
+                new NoSuchElementException("There is no product with name: " + name)));
+    }
+
 
     private void checkNotNullId(Long id) {
         if (id == null) {

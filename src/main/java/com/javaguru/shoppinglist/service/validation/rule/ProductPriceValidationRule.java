@@ -1,6 +1,6 @@
 package com.javaguru.shoppinglist.service.validation.rule;
 
-import com.javaguru.shoppinglist.domain.Product;
+import com.javaguru.shoppinglist.dto.ProductDTO;
 import com.javaguru.shoppinglist.service.validation.ProductValidationException;
 
 import org.springframework.stereotype.Component;
@@ -12,9 +12,9 @@ public class ProductPriceValidationRule implements ProductValidationRule {
     private static final BigDecimal PRICE_MIN_VALUE = BigDecimal.ZERO;
 
     @Override
-    public void validate(Product product) {
-        checkNotNull(product);
-        BigDecimal price = product.getPrice();
+    public void validate(ProductDTO productDTO) {
+        checkNotNull(productDTO);
+        BigDecimal price = productDTO.getPrice();
         checkIfPriceNotNull(price);
         checkPriceMinValue(price);
     }

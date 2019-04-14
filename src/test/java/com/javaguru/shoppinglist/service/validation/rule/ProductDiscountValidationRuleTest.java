@@ -1,6 +1,6 @@
 package com.javaguru.shoppinglist.service.validation.rule;
 
-import com.javaguru.shoppinglist.domain.Product;
+import com.javaguru.shoppinglist.dto.ProductDTO;
 import com.javaguru.shoppinglist.service.validation.ProductValidationException;
 
 import org.junit.Test;
@@ -13,11 +13,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public class ProductDiscountValidationRuleTest {
 
     private ProductDiscountValidationRule victim = new ProductDiscountValidationRule();
-    private Product input;
+    private ProductDTO input;
 
     @Test
     public void shouldThrowProductValidationException() {
-        input = product(null);
+        input = productDTO(null);
 
         assertThatThrownBy(() -> victim.validate(input))
                 .isInstanceOf(ProductValidationException.class)
@@ -26,7 +26,7 @@ public class ProductDiscountValidationRuleTest {
 
     @Test
     public void shouldThrowProductValidationExceptionDueToAllowedDiapason() {
-        input = product(new BigDecimal(120));
+        input = productDTO(new BigDecimal(120));
 
         assertThatThrownBy(() -> victim.validate(input))
                 .isInstanceOf(ProductValidationException.class)
@@ -35,17 +35,17 @@ public class ProductDiscountValidationRuleTest {
 
     @Test
     public void shouldValidateSuccessfully() {
-        input = product(new BigDecimal(50));
+        input = productDTO(new BigDecimal(50));
 
         victim.validate(input);
     }
 
-    public Product product(BigDecimal discount) {
-        Product product = new Product();
-        product.setName("PRODUCT_NAME");
-        product.setPrice(new BigDecimal(20));
-        product.setDiscount(discount);
+    public ProductDTO productDTO(BigDecimal discount) {
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setName("PRODUCT_NAME");
+        productDTO.setPrice(new BigDecimal(20));
+        productDTO.setDiscount(discount);
 
-        return product;
+        return productDTO;
     }
 }

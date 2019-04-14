@@ -1,6 +1,6 @@
 package com.javaguru.shoppinglist.service.validation.rule;
 
-import com.javaguru.shoppinglist.domain.Product;
+import com.javaguru.shoppinglist.dto.ProductDTO;
 import com.javaguru.shoppinglist.service.validation.ProductValidationException;
 
 import org.junit.Test;
@@ -13,11 +13,11 @@ public class ProductPriceValidationRuleTest {
 
     private ProductPriceValidationRule victim = new ProductPriceValidationRule();
 
-    private Product input;
+    private ProductDTO input;
 
     @Test
     public void shouldThrowProductValidationException() {
-        input = product(null);
+        input = productDTO(null);
 
         assertThatThrownBy(() -> victim.validate(input))
                 .isInstanceOf(ProductValidationException.class)
@@ -26,7 +26,7 @@ public class ProductPriceValidationRuleTest {
 
     @Test
     public void shouldThrowProductValidationExceptionDueToMinValue() {
-        input = product(new BigDecimal(-5));
+        input = productDTO(new BigDecimal(-5));
         assertThatThrownBy(() -> victim.validate(input))
                 .isInstanceOf(ProductValidationException.class)
                 .hasMessage("Price should be greater than 0");
@@ -34,17 +34,17 @@ public class ProductPriceValidationRuleTest {
 
     @Test
     public void shouldValidateSuccessfully() {
-        input = product(new BigDecimal(20));
+        input = productDTO(new BigDecimal(20));
 
         victim.validate(input);
     }
 
-    private Product product(BigDecimal price) {
-        Product product = new Product();
-        product.setName("PRODUCT_NAME");
-        product.setDiscount(new BigDecimal(50));
-        product.setPrice(price);
+    private ProductDTO productDTO(BigDecimal price) {
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setName("PRODUCT_NAME");
+        productDTO.setDiscount(new BigDecimal(50));
+        productDTO.setPrice(price);
 
-        return product;
+        return productDTO;
     }
 }

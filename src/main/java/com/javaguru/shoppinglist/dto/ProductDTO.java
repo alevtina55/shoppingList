@@ -1,21 +1,29 @@
 package com.javaguru.shoppinglist.dto;
 
-import com.javaguru.shoppinglist.domain.Product;
+import org.hibernate.validator.constraints.NotBlank;
 
 import java.math.BigDecimal;
+import java.util.Objects;
+
+import javax.validation.constraints.Null;
+
 
 public class ProductDTO {
+    @Null(groups = {Create.class, UpdateDescription.class})
     private Long id;
+    @NotBlank(groups = {Create.class})
+    @Null(groups = {UpdateDescription.class})
     private String name;
+    @Null(groups = {UpdateDescription.class})
     private BigDecimal price;
+    @Null(groups = {UpdateDescription.class})
     private String category;
+    @Null(groups = {UpdateDescription.class})
     private BigDecimal discount;
     private String description;
+    @Null(groups = {Create.class, UpdateDescription.class})
+    private BigDecimal actualPrice;
 
-    public ProductDTO(Product product) {
-        this(product.getId(), product.getName(), product.getPrice(), product.getCategory(),
-                product.getDiscount(), product.getDescription());
-    }
 
     public ProductDTO() {
     }
@@ -76,5 +84,54 @@ public class ProductDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public BigDecimal getActualPrice() {
+        return actualPrice;
+    }
+
+    public void setActualPrice(BigDecimal actualPrice) {
+        this.actualPrice = actualPrice;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductDTO that = (ProductDTO) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(price, that.price) &&
+                Objects.equals(category, that.category) &&
+                Objects.equals(discount, that.discount) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(actualPrice, that.actualPrice);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, name, price, category, discount, description, actualPrice);
+    }
+
+    @Override
+    public String toString() {
+        return "ProductDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", category='" + category + '\'' +
+                ", discount=" + discount +
+                ", description='" + description + '\'' +
+                ", actualPrice=" + actualPrice +
+                '}';
+    }
+
+    public interface Create {
+
+    }
+
+    public interface UpdateDescription {
+
     }
 }

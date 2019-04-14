@@ -1,6 +1,6 @@
 package com.javaguru.shoppinglist.service.validation.rule;
 
-import com.javaguru.shoppinglist.domain.Product;
+import com.javaguru.shoppinglist.dto.ProductDTO;
 import com.javaguru.shoppinglist.service.validation.ProductValidationException;
 
 import org.springframework.stereotype.Component;
@@ -11,9 +11,9 @@ public class ProductNameValidationRule implements ProductValidationRule {
     private static final int MAX_LENGTH_VALUE = 32;
 
     @Override
-    public void validate(Product product) {
-        checkNotNull(product);
-        String name = product.getName();
+    public void validate(ProductDTO productDTO) {
+        checkNotNull(productDTO);
+        String name = productDTO.getName();
         checkIfNameNotNull(name);
         checkNameMinLength(name);
         checkNameMaxLength(name);
@@ -33,7 +33,7 @@ public class ProductNameValidationRule implements ProductValidationRule {
 
     private void checkNameMaxLength(String name) {
         if (name.trim().length() > MAX_LENGTH_VALUE) {
-            throw new ProductValidationException("Name is to long");
+            throw new ProductValidationException("Name is too long");
         }
     }
 }

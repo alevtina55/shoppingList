@@ -1,6 +1,6 @@
 package com.javaguru.shoppinglist.service.validation.rule;
 
-import com.javaguru.shoppinglist.domain.ShoppingCartItem;
+import com.javaguru.shoppinglist.dto.ShoppingCartItemDTO;
 import com.javaguru.shoppinglist.service.validation.ItemValidationException;
 
 import org.springframework.stereotype.Component;
@@ -10,7 +10,7 @@ public class ItemCountValidationRule implements ItemValidationRule {
     private static final Integer COUNT_MIN_VALUE = 1;
 
     @Override
-    public void validate(ShoppingCartItem shoppingCartItem) {
+    public void validate(ShoppingCartItemDTO shoppingCartItem) {
         Integer count = shoppingCartItem.getCountOfProducts();
         checkNotNull(shoppingCartItem);
         checkIfCountNotNull(count);

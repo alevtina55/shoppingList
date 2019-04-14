@@ -1,6 +1,8 @@
 package com.javaguru.shoppinglist.service;
 
+import com.javaguru.shoppinglist.converters.ProductConverter;
 import com.javaguru.shoppinglist.domain.Product;
+import com.javaguru.shoppinglist.dto.ProductDTO;
 import com.javaguru.shoppinglist.repository.ProductRepository;
 import com.javaguru.shoppinglist.service.validation.ProductValidationService;
 
@@ -25,33 +27,40 @@ public class DefaultProductServiceTest {
     private ProductRepository repository;
 
     @Mock
+    private ProductConverter converter;
+
+    @Mock
     private ProductValidationService validationService;
 
     @InjectMocks
     private DefaultProductService victim;
 
     @Captor
-    private ArgumentCaptor<Product> productCaptor;
+    private ArgumentCaptor<ProductDTO> productDTOCaptor;
 
     @Test
     public void shouldFindProduct() {
         when(repository.findById(100L)).thenReturn(Optional.ofNullable(product()));
+        when(converter.convert(product())).thenReturn(productDTO());
 
-        Product result = victim.findProductById(100L);
 
-        assertThat(result).isEqualTo(product());
+        ProductDTO result = victim.findProductById(100L);
+
+        assertThat(result).isEqualTo(productDTO());
     }
 
     @Test
     public void shouldCreateProductSuccessfully() {
         Product product = product();
+        ProductDTO productDTO = productDTO();
         when(repository.insert(product)).thenReturn(product.getId());
+        when(converter.convert(productDTO)).thenReturn(product);
 
-        Long result = victim.create(product);
-        verify(validationService).validate(productCaptor.capture());
-        Product captorResult = productCaptor.getValue();
+        Long result = victim.create(productDTO);
+        verify(validationService).validate(productDTOCaptor.capture());
+        ProductDTO captorResult = productDTOCaptor.getValue();
 
-        assertThat(captorResult).isEqualTo(product);
+        assertThat(captorResult).isEqualTo(productDTO);
         assertThat(product.getId()).isEqualTo(result);
     }
 
@@ -67,5 +76,15 @@ public class DefaultProductServiceTest {
         product.setId(100L);
 
         return product;
+    }
+
+    private ProductDTO productDTO() {
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setId(100L);
+        productDTO.setName("name");
+        productDTO.setPrice(new BigDecimal(20));
+        productDTO.setDiscount(BigDecimal.ZERO);
+
+        return productDTO;
     }
 }

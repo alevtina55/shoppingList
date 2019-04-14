@@ -1,6 +1,6 @@
 package com.javaguru.shoppinglist.service.validation;
 
-import com.javaguru.shoppinglist.domain.Product;
+import com.javaguru.shoppinglist.dto.ProductDTO;
 import com.javaguru.shoppinglist.service.validation.rule.ProductDiscountValidationRule;
 import com.javaguru.shoppinglist.service.validation.rule.ProductNameValidationRule;
 import com.javaguru.shoppinglist.service.validation.rule.ProductPriceValidationRule;
@@ -38,11 +38,11 @@ public class ProductValidationServiceTest {
     private ProductUniqueNameValidationRule productUniqueNameValidationRule;
 
     @Captor
-    private ArgumentCaptor<Product> captor;
+    private ArgumentCaptor<ProductDTO> captor;
 
     private ProductValidationService victim;
 
-    private Product product = product();
+    private ProductDTO productDTO = productDTO();
 
     @Before
     public void setUp() {
@@ -58,24 +58,24 @@ public class ProductValidationServiceTest {
 
     @Test
     public void shouldValidateSuccessfully() {
-        victim.validate(product);
+        victim.validate(productDTO);
 
         verify(productDiscountValidationRule).validate(captor.capture());
         verify(productNameValidationRule).validate(captor.capture());
         verify(productPriceValidationRule).validate(captor.capture());
         verify(productUniqueNameValidationRule).validate(captor.capture());
 
-        List<Product> resultList = captor.getAllValues();
-        assertThat(resultList).containsOnly(product);
+        List<ProductDTO> resultList = captor.getAllValues();
+        assertThat(resultList).containsOnly(productDTO);
     }
 
 
-    private Product product() {
-        Product product = new Product();
-        product.setName("PRODUCT_NAME");
-        product.setPrice(new BigDecimal(100));
-        product.setDiscount(new BigDecimal(50));
+    private ProductDTO productDTO() {
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setName("PRODUCT_NAME");
+        productDTO.setPrice(new BigDecimal(100));
+        productDTO.setDiscount(new BigDecimal(50));
 
-        return product;
+        return productDTO;
     }
 }

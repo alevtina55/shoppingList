@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -43,11 +44,25 @@ public class HibernateProductRepository implements ProductRepository {
         return product != null;
     }
 
+    @Override
     public void update(Product product) {
         sessionFactory.getCurrentSession().update(product);
     }
 
+    @Override
     public void delete(Product product) {
         sessionFactory.getCurrentSession().delete(product);
+    }
+
+    @Override
+    public List<Product> findAll() {
+        return sessionFactory.getCurrentSession().createCriteria(Product.class).list();
+    }
+
+    @Override
+    public Optional<Product> findByName(String name) {
+        Product product = (Product) sessionFactory.getCurrentSession().createCriteria(Product.class)
+                .add(Restrictions.eq("name", name)).setMaxResults(1).uniqueResult();
+        return Optional.ofNullable(product);
     }
 }

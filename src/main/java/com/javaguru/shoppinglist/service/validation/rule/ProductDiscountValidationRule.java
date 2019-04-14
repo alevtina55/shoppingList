@@ -1,6 +1,6 @@
 package com.javaguru.shoppinglist.service.validation.rule;
 
-import com.javaguru.shoppinglist.domain.Product;
+import com.javaguru.shoppinglist.dto.ProductDTO;
 import com.javaguru.shoppinglist.service.validation.ProductValidationException;
 
 import org.springframework.stereotype.Component;
@@ -14,12 +14,12 @@ public class ProductDiscountValidationRule implements ProductValidationRule {
     private static final BigDecimal MIN_PRICE_TO_SET_DISCOUNT = new BigDecimal(20);
 
     @Override
-    public void validate(Product product) {
-        checkNotNull(product);
-        BigDecimal discount = product.getDiscount();
+    public void validate(ProductDTO productDTO) {
+        checkNotNull(productDTO);
+        BigDecimal discount = productDTO.getDiscount();
         checkIfDiscountNotNull(discount);
         checkIfInAllowedDiapason(discount);
-        checkIfAllowedToSetDiscount(product);
+        checkIfAllowedToSetDiscount(productDTO);
     }
 
     private void checkIfDiscountNotNull(BigDecimal discount) {
@@ -35,9 +35,9 @@ public class ProductDiscountValidationRule implements ProductValidationRule {
         }
     }
 
-    private void checkIfAllowedToSetDiscount(Product product) {
-        if (product.getPrice().compareTo(MIN_PRICE_TO_SET_DISCOUNT) < 0
-                && product.getDiscount().compareTo(BigDecimal.ZERO) > 0) {
+    private void checkIfAllowedToSetDiscount(ProductDTO productDTO) {
+        if (productDTO.getPrice().compareTo(MIN_PRICE_TO_SET_DISCOUNT) < 0
+                && productDTO.getDiscount().compareTo(BigDecimal.ZERO) > 0) {
             throw new ProductValidationException("Can not add discount while price is less than "
                     + MIN_PRICE_TO_SET_DISCOUNT);
         }
