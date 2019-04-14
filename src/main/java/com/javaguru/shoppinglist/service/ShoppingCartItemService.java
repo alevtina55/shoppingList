@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 @Service
 public class ShoppingCartItemService {
     private final ProductService productService;
@@ -84,6 +86,7 @@ public class ShoppingCartItemService {
         }
     }
 
+    @Transactional
     public void deleteShoppingCartItems(Long shoppingCartId) {
         List<ShoppingCartItemDTO> itemsDTO = findItemsByCartId(shoppingCartId);
         List<ShoppingCartItem> items = itemsDTO.stream()

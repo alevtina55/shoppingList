@@ -15,7 +15,7 @@ public interface ProductService {
 
     BigDecimal calculateActualPrice(BigDecimal price, BigDecimal discount);
 
-    void updateDescription(Long id, String newDescription);
+    void update(ProductDTO productDTO);
 
     List<ProductDTO> findAll();
 

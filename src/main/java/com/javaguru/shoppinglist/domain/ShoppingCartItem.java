@@ -28,6 +28,7 @@ public class ShoppingCartItem {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
+    @Column(name = "count_of_products")
     private Integer countOfProducts;
 
     public Long getId() {

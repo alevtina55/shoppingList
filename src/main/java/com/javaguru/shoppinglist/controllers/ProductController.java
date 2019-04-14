@@ -62,7 +62,7 @@ public class ProductController {
     public void updateDescription(@PathVariable("id") Long id,
                                   @RequestBody ProductDTO productDTO) {
         String newDescription = productDTO.getDescription();
-        productService.updateDescription(id, newDescription);
+        productService.update(productDTO);
     }
 
     @GetMapping
